@@ -1,0 +1,62 @@
+group 'spring.security.kerberos.test'
+version '1.0-SNAPSHOT'
+
+buildscript {
+    repositories {
+        mavenCentral()
+    }
+    dependencies {
+        classpath("org.springframework.boot:spring-boot-gradle-plugin:1.5.2.RELEASE")
+    }
+}
+
+configurations.all {
+    exclude group: "org.slf4j", module: "slf4j-log4j12"
+    exclude group: "log4j", module: "log4j"
+    exclude group: "log4j", module: "apache-log4j-extras"
+    exclude group: "org.apache.directory.api", module: "api-ldap-schema-data"
+//    exclude group: "org.apache.directory.api", module: "api-all"
+}
+
+apply plugin: 'java'
+apply plugin: 'eclipse'
+apply plugin: 'idea'
+apply plugin: 'org.springframework.boot'
+
+
+repositories {
+    mavenCentral()
+}
+
+sourceCompatibility = 1.8
+targetCompatibility = 1.8
+
+dependencies {
+    // tag::jetty[]
+    compile("org.springframework.boot:spring-boot-starter-web") {
+        exclude module: "spring-boot-starter-tomcat"
+    }
+    compile("org.springframework.boot:spring-boot-starter-jetty")
+    // end::jetty[]
+    // tag::actuator[]
+    compile("org.springframework.boot:spring-boot-starter-actuator")
+
+    compile("org.springframework.security:spring-security-config:3.2.7.RELEASE")
+    compile("org.springframework.security.kerberos:spring-security-kerberos-web:1.0.1.RELEASE")
+    // end::actuator[]
+    testCompile("junit:junit")
+
+    compile "org.apache.directory.server:apacheds-core-api:$apacheDirServerVersion"
+    compile "org.apache.directory.server:apacheds-interceptor-kerberos:$apacheDirServerVersion"
+    compile "org.apache.directory.server:apacheds-protocol-shared:$apacheDirServerVersion"
+    compile "org.apache.directory.server:apacheds-protocol-kerberos:$apacheDirServerVersion"
+    compile "org.apache.directory.server:apacheds-ldif-partition:$apacheDirServerVersion"
+    compile "org.apache.directory.server:apacheds-mavibot-partition:$apacheDirServerVersion"
+    compile "org.apache.directory.server:apacheds-jdbm-partition:$apacheDirServerVersion"
+    compile "org.apache.directory.server:apacheds-protocol-ldap:$apacheDirServerVersion"
+    compile("org.apache.directory.api:api-all:$apacheDirApiVersion") {
+        exclude group: "xml-apis", module: "xml-apis"
+        exclude group: "xpp3", module: "xpp3"
+        exclude group: "dom4j", module: "dom4j"
+    }
+}
