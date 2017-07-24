@@ -509,7 +509,8 @@ public class MiniKdc {
 	 * @throws Exception thrown if the principals or the keytab file could not be created.
 	 */
 	public void createPrincipal(File keytabFile, String... principals) throws Exception {
-		String generatedPassword = UUID.randomUUID().toString();
+//		String generatedPassword = UUID.randomUUID().toString();
+		String generatedPassword = "ala123";
 		Keytab keytab = new Keytab();
 		List<KeytabEntry> entries = new ArrayList<KeytabEntry>();
 		for (String principal : principals) {

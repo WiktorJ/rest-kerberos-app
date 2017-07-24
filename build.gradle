@@ -41,8 +41,10 @@ dependencies {
     // tag::actuator[]
     compile("org.springframework.boot:spring-boot-starter-actuator")
 
-    compile("org.springframework.security:spring-security-config:3.2.7.RELEASE")
+    compile("org.springframework.security:spring-security-config:4.2.2.RELEASE")
     compile("org.springframework.security.kerberos:spring-security-kerberos-web:1.0.1.RELEASE")
+    compile group: 'org.springframework.security.kerberos', name: 'spring-security-kerberos-client', version: '1.0.1.RELEASE'
+
     // end::actuator[]
     testCompile("junit:junit")
 
