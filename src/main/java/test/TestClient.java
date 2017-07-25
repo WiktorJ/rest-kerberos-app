@@ -18,8 +18,8 @@ public class TestClient
 
     public static void main(String[] args) {
         KerberosRestTemplate restTemplate =
-                new KerberosRestTemplate("/home/wjurasz/IdeaProjects/simple-rest-app-test/example.keytab", "test@EXAMPLE.COM");
-        restTemplate.getForObject("http://localhost:8080/test2", String.class);
+                new KerberosRestTemplate("/home/wjurasz/IdeaProjects/simple-rest-app-test/cern.keytab", "other@CERN.CH");
+        restTemplate.getForObject("http://pcbe15493.dyndns.cern.ch:8080/test2", String.class);
     }
 
 //    @Override

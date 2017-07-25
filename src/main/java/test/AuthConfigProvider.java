@@ -110,7 +110,7 @@ public class AuthConfigProvider extends WebSecurityConfigurerAdapter {
     public SunJaasKerberosTicketValidator sunJaasKerberosTicketValidator() {
         SunJaasKerberosTicketValidator ticketValidator =
                 new SunJaasKerberosTicketValidator();
-        ticketValidator.setServicePrincipal("HTTP/example.com@EXAMPLE.COM");
+        ticketValidator.setServicePrincipal("HTTP/pcbe15493:8080@CERN.CH");
         ticketValidator.setKeyTabLocation(new FileSystemResource("/home/wjurasz/IdeaProjects/simple-rest-app-test/example.keytab"));
         ticketValidator.setDebug(true);
         return ticketValidator;
@@ -127,6 +127,7 @@ public class AuthConfigProvider extends WebSecurityConfigurerAdapter {
         SpnegoAuthenticationProcessingFilter filter =
                 new SpnegoAuthenticationProcessingFilter();
         filter.setAuthenticationManager(authenticationManager);
+//        filter.setAuthenticationDetailsSource();
         return filter;
     }
 
