@@ -109,7 +109,7 @@ public class AuthConfigProvider extends WebSecurityConfigurerAdapter {
     public SunJaasKerberosTicketValidator sunJaasKerberosTicketValidator() {
         SunJaasKerberosTicketValidator ticketValidator =
                 new SunJaasKerberosTicketValidator();
-        ticketValidator.setServicePrincipal("HTTP/pcbe15493.dyndns.cern.ch@CERN.CH");
+        ticketValidator.setServicePrincipal("HTTP/pcbe15493.dyndns.cern.ch@PCBE15493.DYNDNS.CERN.CH");
         ticketValidator.setKeyTabLocation(new FileSystemResource("/home/wjurasz/IdeaProjects/simple-rest-app-test/cern.keytab"));
         ticketValidator.setDebug(true);
         return ticketValidator;
