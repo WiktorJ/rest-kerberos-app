@@ -1,20 +1,30 @@
 package test;
 
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 @RestController
 public class TestController {
 
-    @RequestMapping("/test2")
+    @RequestMapping("/home")
+    public String home() {
+        System.err.println("This is unprotected controller access");
+        return "Greetings from /home";
+    }
+
+
+    @PreAuthorize("hasRole('ROLE_USER')")
+    @RequestMapping("/test")
     public String index() {
-        System.err.println("This is protected controller access");
+        System.err.println("This is protected controller access USER");
         return "Greetings from /test2";
     }
 
-    @RequestMapping("/home")
-    public String index2() {
-        System.err.println("This is unprotected controller access");
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
+    @RequestMapping("/admin")
+    public String admin() {
+        System.err.println("This is protected controller access ADMIN");
         return "Greetings from /home";
     }
 

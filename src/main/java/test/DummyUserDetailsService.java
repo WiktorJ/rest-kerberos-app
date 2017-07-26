@@ -12,7 +12,15 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 public class DummyUserDetailsService implements UserDetailsService {
     @Override
     public UserDetails loadUserByUsername(String s) throws UsernameNotFoundException {
-        return new User("other", "ala123", true, true, true, true,
-                AuthorityUtils.createAuthorityList("ROLE_USER"));
+        switch (s.split("@")[0]) {
+            case "admin":
+                return new User("admin", "admin123", true, true, true, true,
+                        AuthorityUtils.createAuthorityList("ROLE_USER", "ROLE_ADMIN"));
+            case "test":
+                return new User("test", "ala123", true, true, true, true,
+                        AuthorityUtils.createAuthorityList("ROLE_USER"));
+            default:
+                throw new UsernameNotFoundException("There is not user " + s + " registered in this AMAZING application!");
+        }
     }
 }
