@@ -183,7 +183,7 @@ public class MiniKdc {
 		DEFAULT_CONFIG.setProperty(KDC_BIND_ADDRESS, "localhost");
 		DEFAULT_CONFIG.setProperty(KDC_PORT, "0");
 		DEFAULT_CONFIG.setProperty(INSTANCE, "DefaultKrbServer");
-		DEFAULT_CONFIG.setProperty(ORG_NAME, "CERN");
+		DEFAULT_CONFIG.setProperty(ORG_NAME, "PCBE15493.DYNDNS.CERN");
 		DEFAULT_CONFIG.setProperty(ORG_DOMAIN, "CH");
 		DEFAULT_CONFIG.setProperty(TRANSPORT, "TCP");
 		DEFAULT_CONFIG.setProperty(MAX_TICKET_LIFETIME, "86400000");
@@ -404,7 +404,7 @@ public class MiniKdc {
 		kdc.getConfig().setMaximumTicketLifetime(Long.parseLong(conf.getProperty(MAX_TICKET_LIFETIME)));
 
 		kdc.getConfig().setPaEncTimestampRequired(false);
-		kdc.setSearchBaseDn("ou=users,dc=cern,dc=ch");
+		kdc.setSearchBaseDn("ou=users,dc=pcbe15493.dyndns.cern,dc=ch");
 		kdc.start();
 
 		StringBuilder sb = new StringBuilder();

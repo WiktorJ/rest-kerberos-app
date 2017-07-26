@@ -40,8 +40,7 @@ public class AuthConfigProvider extends WebSecurityConfigurerAdapter {
                 .and()
                 .formLogin()
                 .loginPage("/login").permitAll()
-                .and().authenticationProvider(kerberosAuthenticationProvider())
-                .authenticationProvider(kerberosServiceAuthenticationProvider())
+                .and()
                 .logout()
                 .permitAll()
                 .and()
@@ -52,9 +51,9 @@ public class AuthConfigProvider extends WebSecurityConfigurerAdapter {
     }
 
     @Autowired
-    public void configureGlobal(final AuthenticationManagerBuilder auth) throws Exception {
-        auth.authenticationProvider(kerberosAuthenticationProvider())
-                .authenticationProvider(kerberosServiceAuthenticationProvider());
+    public void configureGlobal(final AuthenticationManagerBuilder auth, KerberosAuthenticationProvider kerberosAuthenticationProvider, KerberosServiceAuthenticationProvider kerberosServiceAuthenticationProvider) throws Exception {
+        auth.authenticationProvider(kerberosAuthenticationProvider)
+                .authenticationProvider(kerberosServiceAuthenticationProvider);
     }
 
 
@@ -64,54 +63,54 @@ public class AuthConfigProvider extends WebSecurityConfigurerAdapter {
 //                .authenticationProvider(kerberosServiceAuthenticationProvider());
 //    }
 
-//    @Bean
-//    @Autowired
-//    public KerberosAuthenticationProvider kerberosAuthenticationProvider(DummyUserDetailsService dummyUserDetailsService) {
-//        KerberosAuthenticationProvider provider = new KerberosAuthenticationProvider();
-//        SunJaasKerberosClient client = new SunJaasKerberosClient();
-//        client.setDebug(true);
-//        provider.setKerberosClient(client);
-//        provider.setUserDetailsService(dummyUserDetailsService);
-//        return provider;
-//    }
-
-
-    //    @Bean
-    public KerberosAuthenticationProvider kerberosAuthenticationProvider() {
+    @Bean
+    @Autowired
+    public KerberosAuthenticationProvider kerberosAuthenticationProvider(DummyUserDetailsService dummyUserDetailsService) {
         KerberosAuthenticationProvider provider = new KerberosAuthenticationProvider();
         SunJaasKerberosClient client = new SunJaasKerberosClient();
         client.setDebug(true);
         provider.setKerberosClient(client);
-        provider.setUserDetailsService(dummyUserDetailsService());
+        provider.setUserDetailsService(dummyUserDetailsService);
         return provider;
     }
 
 
 //    @Bean
-//    @Autowired
-//    public KerberosServiceAuthenticationProvider kerberosServiceAuthenticationProvider(SunJaasKerberosTicketValidator sunJaasKerberosTicketValidator, DummyUserDetailsService dummyUserDetailsService) {
-//        KerberosServiceAuthenticationProvider provider =
-//                new KerberosServiceAuthenticationProvider();
-//        provider.setTicketValidator(sunJaasKerberosTicketValidator);
-//        provider.setUserDetailsService(dummyUserDetailsService);
+//    public KerberosAuthenticationProvider kerberosAuthenticationProvider() {
+//        KerberosAuthenticationProvider provider = new KerberosAuthenticationProvider();
+//        SunJaasKerberosClient client = new SunJaasKerberosClient();
+//        client.setDebug(true);
+//        provider.setKerberosClient(client);
+//        provider.setUserDetailsService(dummyUserDetailsService());
 //        return provider;
 //    }
 
-    //    @Bean
-    public KerberosServiceAuthenticationProvider kerberosServiceAuthenticationProvider() {
+
+    @Bean
+    @Autowired
+    public KerberosServiceAuthenticationProvider kerberosServiceAuthenticationProvider(SunJaasKerberosTicketValidator sunJaasKerberosTicketValidator, DummyUserDetailsService dummyUserDetailsService) {
         KerberosServiceAuthenticationProvider provider =
                 new KerberosServiceAuthenticationProvider();
-        provider.setTicketValidator(sunJaasKerberosTicketValidator());
-        provider.setUserDetailsService(dummyUserDetailsService());
+        provider.setTicketValidator(sunJaasKerberosTicketValidator);
+        provider.setUserDetailsService(dummyUserDetailsService);
         return provider;
     }
+//
+//    @Bean
+//    public KerberosServiceAuthenticationProvider kerberosServiceAuthenticationProvider() {
+//        KerberosServiceAuthenticationProvider provider =
+//                new KerberosServiceAuthenticationProvider();
+//        provider.setTicketValidator(sunJaasKerberosTicketValidator());
+//        provider.setUserDetailsService(dummyUserDetailsService());
+//        return provider;
+//    }
 
-    //    @Bean
+    @Bean
     public SunJaasKerberosTicketValidator sunJaasKerberosTicketValidator() {
         SunJaasKerberosTicketValidator ticketValidator =
                 new SunJaasKerberosTicketValidator();
-        ticketValidator.setServicePrincipal("HTTP/pcbe15493:8080@CERN.CH");
-        ticketValidator.setKeyTabLocation(new FileSystemResource("/home/wjurasz/IdeaProjects/simple-rest-app-test/example.keytab"));
+        ticketValidator.setServicePrincipal("HTTP/pcbe15493.dyndns.cern.ch@CERN.CH");
+        ticketValidator.setKeyTabLocation(new FileSystemResource("/home/wjurasz/IdeaProjects/simple-rest-app-test/cern.keytab"));
         ticketValidator.setDebug(true);
         return ticketValidator;
     }
@@ -132,7 +131,7 @@ public class AuthConfigProvider extends WebSecurityConfigurerAdapter {
     }
 
 
-    //    @Bean
+    @Bean
     public DummyUserDetailsService dummyUserDetailsService() {
         return new DummyUserDetailsService();
     }
