@@ -19,7 +19,7 @@ public class TestClient
     public static void main(String[] args) {
         KerberosRestTemplate restTemplate =
                 new KerberosRestTemplate("/home/wjurasz/IdeaProjects/simple-rest-app-test/cern.keytab", "test@PCBE15493.DYNDNS.CERN.CH");
-        restTemplate.getForObject("http://pcbe15493.dyndns.cern.ch:8080/admin", String.class);
+        restTemplate.getForObject("http://pcbe15493.dyndns.cern.ch:8080/test", String.class);
     }
 
 //    @Override

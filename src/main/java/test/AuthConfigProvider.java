@@ -40,12 +40,6 @@ public class AuthConfigProvider extends WebSecurityConfigurerAdapter {
                 .antMatchers("/", "/home").permitAll()
                 .anyRequest().authenticated()
                 .and()
-                .formLogin()
-                .loginPage("/login").permitAll()
-                .and()
-                .logout()
-                .permitAll()
-                .and()
                 .addFilterBefore(
                         spnegoAuthenticationProcessingFilter(authenticationManagerBean),
                         BasicAuthenticationFilter.class);
@@ -59,12 +53,6 @@ public class AuthConfigProvider extends WebSecurityConfigurerAdapter {
     }
 
 
-//    @Autowired
-//    public void configure(final AuthenticationManagerBuilder auth) throws Exception {
-//        auth.authenticationProvider(kerberosAuthenticationProvider())
-//                .authenticationProvider(kerberosServiceAuthenticationProvider());
-//    }
-
     @Bean
     @Autowired
     public KerberosAuthenticationProvider kerberosAuthenticationProvider(DummyUserDetailsService dummyUserDetailsService) {
@@ -77,17 +65,6 @@ public class AuthConfigProvider extends WebSecurityConfigurerAdapter {
     }
 
 
-//    @Bean
-//    public KerberosAuthenticationProvider kerberosAuthenticationProvider() {
-//        KerberosAuthenticationProvider provider = new KerberosAuthenticationProvider();
-//        SunJaasKerberosClient client = new SunJaasKerberosClient();
-//        client.setDebug(true);
-//        provider.setKerberosClient(client);
-//        provider.setUserDetailsService(dummyUserDetailsService());
-//        return provider;
-//    }
-
-
     @Bean
     @Autowired
     public KerberosServiceAuthenticationProvider kerberosServiceAuthenticationProvider(SunJaasKerberosTicketValidator sunJaasKerberosTicketValidator, DummyUserDetailsService dummyUserDetailsService) {
@@ -97,15 +74,6 @@ public class AuthConfigProvider extends WebSecurityConfigurerAdapter {
         provider.setUserDetailsService(dummyUserDetailsService);
         return provider;
     }
-//
-//    @Bean
-//    public KerberosServiceAuthenticationProvider kerberosServiceAuthenticationProvider() {
-//        KerberosServiceAuthenticationProvider provider =
-//                new KerberosServiceAuthenticationProvider();
-//        provider.setTicketValidator(sunJaasKerberosTicketValidator());
-//        provider.setUserDetailsService(dummyUserDetailsService());
-//        return provider;
-//    }
 
     @Bean
     public SunJaasKerberosTicketValidator sunJaasKerberosTicketValidator() {
@@ -117,9 +85,8 @@ public class AuthConfigProvider extends WebSecurityConfigurerAdapter {
         return ticketValidator;
     }
 
-    @Bean
     public SpnegoEntryPoint spnegoEntryPoint() {
-        return new SpnegoEntryPoint("/login");
+        return new SpnegoEntryPoint();
     }
 
     @Bean
@@ -128,7 +95,6 @@ public class AuthConfigProvider extends WebSecurityConfigurerAdapter {
         SpnegoAuthenticationProcessingFilter filter =
                 new SpnegoAuthenticationProcessingFilter();
         filter.setAuthenticationManager(authenticationManager);
-//        filter.setAuthenticationDetailsSource();
         return filter;
     }
 
@@ -136,12 +102,6 @@ public class AuthConfigProvider extends WebSecurityConfigurerAdapter {
     @Bean
     public DummyUserDetailsService dummyUserDetailsService() {
         return new DummyUserDetailsService();
-    }
-
-    @Override
-    @Bean
-    public AuthenticationManager authenticationManagerBean() throws Exception {
-        return super.authenticationManagerBean();
     }
 
 }
